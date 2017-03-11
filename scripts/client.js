@@ -1,5 +1,5 @@
 console.log(peopleArray);
-yakImageArray = ["yak1.jpg", "yak2.jpg", "yak3.jpg", "yak4.jpg", "yak5.jpeg",
+yakImageArray = ["yak1.jpg", "yak2.jpg", "yak3.jpg", "yak4.jpg", "yak5.jpg",
 "yak6.jpg", "yak7.jpg", "yak8.jpg", "yak9.jpg", "yak10.jpg", "yak11.jpg",
 "yak12.jpg", "yak13.jpg", "yak14.jpg", "yak15.jpg", "yak16.jpg", "yak17.jpg",
 "yak18.jpg", "yak19.jpg"];
@@ -7,12 +7,11 @@ yakImageArray = ["yak1.jpg", "yak2.jpg", "yak3.jpg", "yak4.jpg", "yak5.jpeg",
 //Pick a person (by index in peopleArray) to have featured on page load
 var startingFeaturedPersonIndex = 0;
 var currentFeaturedPerson;
-setFeaturedPerson(startingFeaturedPersonIndex);
 
 function FeaturedPerson(personIndex) {
   this.personIndex = personIndex;
   this.personInfo = peopleArray[personIndex];
-  this.imageSource = "imgs/yaks_raw/" + yakImageArray[personIndex];
+  this.imageSource = "imgs/yaks/" + yakImageArray[personIndex];
 }
 
 FeaturedPerson.prototype = {
@@ -40,12 +39,14 @@ FeaturedPerson.prototype = {
 
 function setFeaturedPerson(personIndex) {
   currentFeaturedPerson = new FeaturedPerson(personIndex);
+  console.log("New featured person set");
 }
 
 $(document).ready(onReady);
 
 function onReady() {
   appendDots();
+  setFeaturedPerson(startingFeaturedPersonIndex);
   updateDOM();
   listenForClicks();
   // checkForTimeOut();
@@ -62,15 +63,6 @@ function appendDots() {
   }
 }
 
-function checkData() {
-  var selectedDot = 15;
-  for (var i = 0; i < $(".dot").length; i++) {
-    if ($(".dot").eq(i).data("personIndex") == selectedDot) {
-      $(".dot").eq(i).addClass("selected");
-    }
-  }
-}
-
 function listenForClicks(){
   $(".dot-container").on("click", ".dot", function() {
     var personIndex = $(this).data("personIndex");
@@ -78,6 +70,10 @@ function listenForClicks(){
   });
   $("#prev-button").on("click", function() {
     var personIndex = currentFeaturedPerson.findPrevPerson();
+    changeToPerson(personIndex);
+  });
+  $("#next-button").on("click", function() {
+    var personIndex = currentFeaturedPerson.findNextPerson();
     changeToPerson(personIndex);
   });
 }
@@ -115,6 +111,7 @@ function updateFeaturedShoutout() {
 
 function updateFeaturedName() {
   var featuredName = currentFeaturedPerson.personInfo.name;
+  console.log(featuredName);
   $(".name").text(featuredName);
 }
 
