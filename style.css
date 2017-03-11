@@ -36,6 +36,7 @@ footer {
   position: relative;
   height: 100px;
   width: 50px;
+  cursor: pointer;
 }
 
 #prev-button {
@@ -97,6 +98,7 @@ footer {
   border-radius: 50%;
   margin: 10px;
   float: left;
+  cursor: pointer;
 }
 
 .first {
@@ -112,4 +114,8 @@ footer {
 
 .selected {
   background-color: darkblue;
+}
+
+.yak-pic {
+  width: 100%;
 }
