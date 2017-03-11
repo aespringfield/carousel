@@ -20,13 +20,14 @@ footer {
 }
 
 .container {
-  background-color: maroon;
+  background-color: skyblue;
+  height: 100%;
 }
 
 .carousel-block {
   background-color: goldenrod;
   width: 80%;
-  height: 85%;
+  height: 600px;
   min-width: 800px;
   margin: 0 auto;
 }
@@ -41,12 +42,14 @@ footer {
   background-color: brown;
   float: left;
   top: -350px;
+  border-radius: 0 15% 15% 0;
 }
 
 #next-button {
   background-color: chartreuse;
   float: right;
   top: -350px;
+  border-radius: 15% 0 0 15%;
 }
 
 .image-block {
@@ -83,6 +86,9 @@ footer {
 
 .dot-container {
   display: inline-block;
-  width
   margin: 0 auto;
+}
+
+.selected {
+  background-color: darkblue;
 }
