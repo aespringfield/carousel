@@ -60,6 +60,14 @@ footer {
   float: left;
 }
 
+.name-container {
+  background-color: fuchsia;
+  height: 100px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
 .text-block {
   background-color: palevioletred;
   height: 600px;
@@ -75,6 +83,13 @@ footer {
   padding: 60px;
 }
 
+.name {
+  color: linen;
+  font-family: sans-serif;
+  font-size: 42px;
+  padding: 24px;
+}
+
 .dot {
   background-color: orangered;
   height: 10px;
@@ -84,9 +99,15 @@ footer {
   float: left;
 }
 
+.first {
+  margin-left: 0;
+}
+
 .dot-container {
-  display: inline-block;
+  //display: inline-block;
+  background-color: gray;
   margin: 0 auto;
+  width: 80%;
 }
 
 .selected {
