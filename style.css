@@ -58,7 +58,6 @@ body {
 
 .button {
   border-radius: 15%;
-  opacity: 0.75;
 }
 
 #prev-button-container {
@@ -158,7 +157,7 @@ body {
 }
 
 .button.highlight {
-  opacity: 0.95;
+  /*opacity: 0.95;*/
   box-shadow: 0 0 3px 3px darkgrey;
 }
 
@@ -174,4 +173,8 @@ body {
 
 #anna-link.highlight {
   color: linen;
+}
+
+.foregrounded {
+  opacity: .75;
 }

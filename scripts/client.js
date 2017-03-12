@@ -10,6 +10,7 @@ var startingFeaturedPersonIndex = 0;
 //Create some important global variables
 var currentFeaturedPerson;
 var timer;
+var buttonsToBackground;
 
 function FeaturedPerson(personIndex) {
   this.personIndex = personIndex;
@@ -51,6 +52,7 @@ function onReady() {
   appendDots();
   changeToPerson(startingFeaturedPersonIndex);
   eventListeners();
+  foregroundButtons();
 }
 
 //appends 1 dot to .dot-container for each person in array
@@ -95,6 +97,11 @@ function eventListeners(){
   $(".button").on("mouseleave", function() {
     $(this).removeClass("highlight");
   });
+
+  $(document).on("mousemove", function() {
+    foregroundButtons();
+  });
+
   $("#anna-link").on("mouseover", function() {
     $(this).addClass("highlight");
   });
@@ -120,12 +127,9 @@ function eventListeners(){
 function changeToPerson(personIndex){
   setFeaturedPerson(personIndex);
   updateDOM();
-  clearInterval(timer);
-  timer = setInterval(function () {
-    autoAdvance();
-  }, 10000);
-  console.log(timer);
+  refreshTimer();
 }
+
 function updateDOM() {
   updateFeaturedImage();
   updateFeaturedShoutout();
@@ -149,12 +153,14 @@ function updateFeaturedImage() {
 function updateFeaturedShoutout() {
   var featuredShoutout = '"' + currentFeaturedPerson.personInfo.shoutout.trim() + '"';
   $(".shoutout").text(featuredShoutout);
+  return featuredShoutout;
 }
 
 function updateFeaturedName() {
   var featuredName = currentFeaturedPerson.personInfo.name;
   console.log(featuredName);
   $(".name").text(featuredName);
+  return featuredName;
 }
 
 function updateDots() {
@@ -167,11 +173,29 @@ function updateDots() {
   }
 }
 
+function refreshTimer() {
+  clearInterval(timer);
+  timer = setInterval(autoAdvance, 10000);
+}
+
 function autoAdvance() {
   var currentPersonIndex = currentFeaturedPerson.personIndex;
   if (currentPersonIndex == peopleArray.length - 1) {
         changeToPerson(0);
   } else {
     changeToPerson(currentPersonIndex + 1);
+  }
+}
+
+function foregroundButtons() {
+  var buttons = $(".button");
+  buttons.fadeTo(100, 0.75);
+  buttons.addClass("foregrounded");
+  clearInterval(buttonsToBackground);
+  if (!($("#next-button").hasClass("highlight")) && !(($("#prev-button").hasClass("highlight")))){
+    buttonsToBackground = setInterval(function() {
+      buttons.removeClass("foregrounded");
+      buttons.fadeTo(400, 0.25);
+    }, 3000);
   }
 }
