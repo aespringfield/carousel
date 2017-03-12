@@ -196,6 +196,6 @@ function foregroundButtons() {
     buttonsToBackground = setInterval(function() {
       buttons.removeClass("foregrounded");
       buttons.fadeTo(400, 0.25);
-    }, 3000);
+    }, 2000);
   }
 }
