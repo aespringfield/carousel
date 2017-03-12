@@ -147,7 +147,7 @@ function updateFeaturedImage() {
 }
 
 function updateFeaturedShoutout() {
-  var featuredShoutout = '"' + currentFeaturedPerson.personInfo.shoutout + '"';
+  var featuredShoutout = '"' + currentFeaturedPerson.personInfo.shoutout.trim() + '"';
   $(".shoutout").text(featuredShoutout);
 }
 
