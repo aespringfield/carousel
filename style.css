@@ -5,55 +5,70 @@ html, body, h1, p {
 }
 
 header {
-  background-color: lime;
+  background-color: darkslategrey;
+  color: linen;
+  text-transform: uppercase;
+  font-family: sans-serif;
+  letter-spacing: 1px;
+  font-size: 30px;
+  word-spacing: 6px;
   width: 100%;
-  height: 10%;
+  height: 100px;
   top: 0;
+  box-shadow: 5px 5px 5px 5px black;
+  padding: 20px 0 0 20px;
 }
 
 footer {
-  background-color: teal;
+  background-color: #333333;
+  color: linen;
   position: fixed;
   width: 100%;
   bottom: 0;
-  height: 5%;
+  height: 35px;
+  padding: 15px 0 0 20px;
+  font-family: sans-serif;
+}
+
+body {
+  background-color: #333333;
 }
 
 .container {
-  background-color: skyblue;
+  background-color: darkslategrey;
   height: 100%;
 }
 
 .carousel-block {
-  background-color: goldenrod;
   width: 1200px;
   height: 600px;
   margin: 0 auto;
+  border-radius: 5px;
+  box-shadow: -5 -5 black;
 }
 
 .button {
+  background-color: #333333;
   position: relative;
+  top: -350px;
   height: 100px;
-  width: 50px;
+  width: 100px;
   cursor: pointer;
+  opacity: 0.75;
+  border-radius: 15%;
 }
 
 #prev-button {
-  background-color: brown;
   float: left;
-  top: -350px;
-  border-radius: 0 15% 15% 0;
+  left: -50px;
 }
 
 #next-button {
-  background-color: chartreuse;
   float: right;
-  top: -350px;
-  border-radius: 15% 0 0 15%;
+  right: -50px;
 }
 
 .image-block {
-  background-color: indigo;
   position: relative;
   height: 600px;
   width: 900px;
@@ -61,61 +76,98 @@ footer {
 }
 
 .name-container {
-  background-color: fuchsia;
+  background-color: #333333;
   height: 100px;
   width: 100%;
   position: absolute;
-  bottom: 0;
-  z-index: 999;
+  bottom: 35px;
+  opacity: 0.75;
 }
 
 .text-block {
-  background-color: palevioletred;
+  background-color: linen;
   height: 600px;
   width: 300px;
   position: relative;
   float: right;
+  border-radius: 0 5px 5px 0
 }
 
 .shoutout {
-  color: snow;
+  margin: 60px 20px 60px 20px;
+  color: #333333;
+  font-family: sans-serif;
+  font-size: 24px;
+  height: 300px;
+}
+
+.attribution {
+  color: darkgrey;
+  height: 100px;
   font-family: sans-serif;
   font-size: 30px;
+  float: right;
+  margin: 0px 20px 0px 20px;
+  text-transform: lowercase;
+  font-style: italic;
 }
 
 .name {
   color: linen;
   font-family: sans-serif;
-  font-size: 42px;
-  padding: 24px;
-  z-index: 999;
+  font-size: 30px;
+  letter-spacing: 2px;
+  word-spacing: 4px;
+  margin: 35px 0 0 35px;
+  opacity: 1;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 1px #333333;
 }
 
 .dot {
-  background-color: orangered;
-  height: 15px;
-  width: 15px;
+  background-color: linen;
+  height: 13px;
+  width: 13px;
   border-radius: 50%;
-  margin: 15px;
+  margin: 13px;
   float: left;
-  cursor: pointer;
-}
-
-.first {
-  margin-left: 0;
+  overflow: hidden;
 }
 
 .dot-container {
-  //display: inline-block;
-  background-color: gray;
   margin: 0 auto;
   width: 80%;
+  max-height: 40px;
 }
 
 .selected {
-  background-color: darkblue;
+  background-color: #333333;
+  box-shadow: 0 0 3px 3px linen;
+}
+
+.highlight {
+  cursor: pointer;
+}
+
+.dot.highlight {
+  background-color: darkgrey;
+}
+
+.button.highlight {
+  opacity: 0.95;
+  box-shadow: 0 0 3px 3px darkgrey;
 }
 
 .yak-pic {
   width: 100%;
+  border-radius: 5px 0 0 5px;
+}
+
+#anna-link {
+  text-decoration: underline;
+  color: darkgrey;
+}
+
+#anna-link.highlight {
+  color: linen;
 }

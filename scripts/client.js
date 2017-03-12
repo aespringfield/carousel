@@ -6,7 +6,10 @@ yakImageArray = ["yak1.jpg", "yak2.jpg", "yak3.jpg", "yak4.jpg", "yak5.jpg",
 
 //Pick a person (by index in peopleArray) to have featured on page load
 var startingFeaturedPersonIndex = 0;
+
+//Create some important global variables
 var currentFeaturedPerson;
+var timer;
 
 function FeaturedPerson(personIndex) {
   this.personIndex = personIndex;
@@ -46,11 +49,8 @@ $(document).ready(onReady);
 
 function onReady() {
   appendDots();
-  setFeaturedPerson(startingFeaturedPersonIndex);
-  updateDOM();
-  listenForClicks();
-  // checkForTimeOut();
-
+  changeToPerson(startingFeaturedPersonIndex);
+  eventListeners();
 }
 
 //appends 1 dot to .dot-container for each person in array
@@ -63,10 +63,23 @@ function appendDots() {
   }
 }
 
-function listenForClicks(){
+function eventListeners(){
   $(".dot-container").on("click", ".dot", function() {
     var personIndex = $(this).data("personIndex");
-    changeToPerson(personIndex);
+    if (personIndex != currentFeaturedPerson.personIndex){
+      changeToPerson(personIndex);
+    }
+    $(this).removeClass("highlight");
+  });
+  $(".dot-container").on("mouseover", ".dot", function() {
+    if ($(this).data("personIndex") != currentFeaturedPerson.personIndex) {
+      $(this).addClass("highlight");
+    }
+  });
+  $(".dot-container").on("mouseleave", ".dot", function() {
+    if ($(this).hasClass("highlight")) {
+      $(this).removeClass("highlight");
+    }
   });
   $("#prev-button").on("click", function() {
     var personIndex = currentFeaturedPerson.findPrevPerson();
@@ -76,14 +89,43 @@ function listenForClicks(){
     var personIndex = currentFeaturedPerson.findNextPerson();
     changeToPerson(personIndex);
   });
+  $(".button").on("mouseover", function() {
+    $(this).addClass("highlight");
+  });
+  $(".button").on("mouseleave", function() {
+    $(this).removeClass("highlight");
+  });
+  $("#anna-link").on("mouseover", function() {
+    $(this).addClass("highlight");
+  });
+  $("#anna-link").on("mouseleave", function() {
+    $(this).removeClass("highlight");
+  });
+  $("#anna-link").on("click", function() {
+      changeToPerson(1);
+  });
+  $(document).on('keydown', function (key) {
+    var personIndex;
+    if (key.which == 37) {
+      personIndex = currentFeaturedPerson.findPrevPerson();
+      changeToPerson(personIndex);
+    } else if (key.which == 39) {
+      personIndex = currentFeaturedPerson.findNextPerson();
+      changeToPerson(personIndex);
+    }
+  });
 }
 
 //changes value of currentFeaturedPerson to new person and updates DOM
 function changeToPerson(personIndex){
   setFeaturedPerson(personIndex);
   updateDOM();
+  clearInterval(timer);
+  timer = setInterval(function () {
+    autoAdvance();
+  }, 10000);
+  console.log(timer);
 }
-
 function updateDOM() {
   updateFeaturedImage();
   updateFeaturedShoutout();
@@ -92,7 +134,7 @@ function updateDOM() {
 }
 
 function updateFeaturedImage() {
-  $(".image-block").children().remove();
+  $(".image-block").children().first().next().remove();
   var featuredImageSource = currentFeaturedPerson.imageSource;
   var featuredPersonFirstName = currentFeaturedPerson.personInfo.name.split(" ")[0];
   var imageHTML = "<img src='" +
@@ -105,7 +147,7 @@ function updateFeaturedImage() {
 }
 
 function updateFeaturedShoutout() {
-  var featuredShoutout = currentFeaturedPerson.personInfo.shoutout;
+  var featuredShoutout = '"' + currentFeaturedPerson.personInfo.shoutout + '"';
   $(".shoutout").text(featuredShoutout);
 }
 
@@ -122,5 +164,14 @@ function updateDots() {
     if (thisDot.data("personIndex") == currentFeaturedPerson.personIndex) {
       thisDot.addClass("selected");
     }
+  }
+}
+
+function autoAdvance() {
+  var currentPersonIndex = currentFeaturedPerson.personIndex;
+  if (currentPersonIndex == peopleArray.length - 1) {
+        changeToPerson(0);
+  } else {
+    changeToPerson(currentPersonIndex + 1);
   }
 }
