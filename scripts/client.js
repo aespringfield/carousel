@@ -111,24 +111,27 @@ function fadeOutFadeIn($elToRemove, $parentEl, newHTML) {
   $parentEl.children().last().fadeIn(fadeSpeed);
 }
 
-//retrieves correct shoutout for current featured person and updates DOM
+//retrieves correct shoutout for current featured person & yak count and updates DOM
 function updateFeaturedShoutout() {
   var featuredShoutout = '"' + currentFeaturedPerson.personInfo.shoutout.trim() + '"';
-  var $el = $(".shoutout");
-  fadeOutFadeInText(featuredShoutout, $el);
+  var $el = $(".text-block");
+  var $elShout = $(".shoutout");
+  var personNumber = currentFeaturedPerson.personIndex + 1;
+  var yakCount = personNumber + "/" + peopleArray.length;
+  var $elYak = $(".yak-count");
+  $el.fadeOut(fadeSpeed, function () {
+    $elShout.text(featuredShoutout);
+    $elYak.text(yakCount);
+  });
+  $el.fadeIn(fadeSpeed);
 }
 
 //retrieves correct name for current featured person and updates DOM
 function updateFeaturedName() {
   var featuredName = currentFeaturedPerson.personInfo.name;
   var $el = $(".name");
-  fadeOutFadeInText(featuredName, $el);
-}
-
-//fades out old name/shoutout divs, changes text, and fades back in
-function fadeOutFadeInText(text, $el) {
   $el.parent().fadeOut(fadeSpeed, function () {
-    $el.text(text);
+    $el.text(featuredName);
   });
   $el.parent().fadeIn(fadeSpeed);
 }

@@ -148,6 +148,17 @@ body {
   position: relative;
 }
 
+.yak-count {
+  color: #333333;
+  font-size: 24px;
+  font-family: 'Open Sans Condensed', sans-serif;
+  position: absolute;
+  width: 100%;
+  height: auto;
+  top: 500px;
+  margin: 0 125px;
+}
+
 .dot {
   background-color: lightslategrey;
   height: 13px;
