@@ -15,7 +15,40 @@ var currentFeaturedPerson;
 var autoAdvanceTimer;
 var buttonsToBackgroundTimer;
 
+$(document).ready(onReady);
 
+function onReady() {
+  appendDots();
+  changeToPerson(startingFeaturedPersonIndex);
+  eventListeners();
+  foregroundButtons();
+}
+
+//appends one dot to .dot-container for each person in array
+//gives each dot a data attribute named personIndex with a unique value of 0-18
+function appendDots() {
+  var dot = "<div class='dot'></div>";
+  for (var i = 0; i < peopleArray.length; i++) {
+    $(".dot-container").append(dot);
+    $(".dot-container").children().last().data("personIndex", i);
+  }
+}
+
+//changes value of currentFeaturedPerson to new person and updates DOM
+function changeToPerson(personIndex){
+  setFeaturedPerson(personIndex);
+  updateDOM();
+  refreshTimer();
+}
+
+//takes a number as an index for a person to be featured
+//creates a new featured person object and sets that as the value for
+//the currentFeaturedPerson global variable
+function setFeaturedPerson(personIndex) {
+  currentFeaturedPerson = new FeaturedPerson(personIndex);
+}
+
+//Constructor for featured person object
 function FeaturedPerson(personIndex) {
   this.personIndex = personIndex;
   this.personInfo = peopleArray[personIndex];
@@ -44,134 +77,6 @@ FeaturedPerson.prototype = {
     return prevPersonIndex;
   }
 };
-
-function setFeaturedPerson(personIndex) {
-  currentFeaturedPerson = new FeaturedPerson(personIndex);
-  console.log("New featured person set");
-}
-
-$(document).ready(onReady);
-
-function onReady() {
-  appendDots();
-  changeToPerson(startingFeaturedPersonIndex);
-  eventListeners();
-  foregroundButtons();
-}
-
-//appends one dot to .dot-container for each person in array
-//gives each dot a data attribute named personIndex with a unique value of 0-18
-function appendDots() {
-  var dot = "<div class='dot'></div>";
-  for (var i = 0; i < peopleArray.length; i++) {
-    $(".dot-container").append(dot);
-    $(".dot-container").children().last().data("personIndex", i);
-  }
-}
-
-function eventListeners(){
-  changeOnButtonClicks();
-  changeOnDotClicks();
-  changeOnArrowKeys();
-  changeOnAnnaLink();
-  highlightDotsOnMouseover();
-  highlightButtonsOnMouseover();
-  highlightAnnaLinkOnMouseover();
-  $(document).on("mousemove", foregroundButtons);
-}
-
-function changeOnButtonClicks() {
-  $("#prev-button").on("click", function() {
-    var personIndex = currentFeaturedPerson.findPrevPerson();
-    changeToPerson(personIndex);
-  });
-  $("#next-button").on("click", function() {
-    var personIndex = currentFeaturedPerson.findNextPerson();
-    changeToPerson(personIndex);
-  });
-}
-
-function changeOnDotClicks() {
-  $(".dot-container").on("click", ".dot", function() {
-    var personIndex = $(this).data("personIndex");
-    if (personIndex != currentFeaturedPerson.personIndex){
-      changeToPerson(personIndex);
-    }
-    $(this).removeClass("highlight");
-  });
-}
-
-function changeOnArrowKeys() {
-  $(document).on('keydown', function (key) {
-    var personIndex;
-    if (key.which == 37) {
-      personIndex = currentFeaturedPerson.findPrevPerson();
-      changeToPerson(personIndex);
-    } else if (key.which == 39) {
-      personIndex = currentFeaturedPerson.findNextPerson();
-      changeToPerson(personIndex);
-    }
-  });
-}
-
-function changeOnAnnaLink() {
-  $("#anna-link").on("click", function() {
-      changeToPerson(1);
-  });
-}
-
-function highlightDotsOnMouseover() {
-  $(".dot-container").on("mouseover", ".dot", function() {
-    if ($(this).data("personIndex") != currentFeaturedPerson.personIndex) {
-      $(this).addClass("highlight");
-    }
-  });
-  $(".dot-container").on("mouseleave", ".dot", function() {
-    if ($(this).hasClass("highlight")) {
-      $(this).removeClass("highlight");
-    }
-  });
-}
-
-function highlightButtonsOnMouseover() {
-  $(".button").on("mouseover", function() {
-    $(this).addClass("highlight");
-  });
-  $(".button").on("mouseleave", function() {
-    $(this).removeClass("highlight");
-  });
-}
-
-function highlightAnnaLinkOnMouseover() {
-  $("#anna-link").on("mouseover", function() {
-    $(this).addClass("highlight");
-  });
-  $("#anna-link").on("mouseleave", function() {
-    $(this).removeClass("highlight");
-  });
-}
-
-function foregroundButtons() {
-  var buttons = $(".button");
-  buttons.fadeIn(100, function() {
-      buttons.addClass("foregrounded");
-  });
-  clearInterval(buttonsToBackgroundTimer);
-  if (!($("#next-button").hasClass("highlight")) && !(($("#prev-button").hasClass("highlight")))){
-    buttonsToBackgroundTimer = setInterval(function() {
-        buttons.fadeOut(1000, function() {
-          buttons.removeClass("foregrounded");
-        });
-    }, 2000);
-  }
-}
-
-//changes value of currentFeaturedPerson to new person and updates DOM
-function changeToPerson(personIndex){
-  setFeaturedPerson(personIndex);
-  updateDOM();
-  refreshTimer();
-}
 
 //updates DOM with correct image, shoutout, name, and selected dot
 function updateDOM() {
@@ -254,5 +159,111 @@ function autoAdvance() {
         changeToPerson(0);
   } else {
     changeToPerson(currentPersonIndex + 1);
+  }
+}
+
+//listens for clicks, mouse movements, and arrow key presses
+function eventListeners(){
+  changeOnButtonClicks();
+  changeOnDotClicks();
+  changeOnArrowKeys();
+  changeOnAnnaLink();
+  highlightDotsOnMouseover();
+  highlightButtonsOnMouseover();
+  highlightAnnaLinkOnMouseover();
+  $(document).on("mousemove", foregroundButtons);
+}
+
+//changes featured person when previous or next button is clicked
+function changeOnButtonClicks() {
+  $("#prev-button").on("click", function() {
+    var personIndex = currentFeaturedPerson.findPrevPerson();
+    changeToPerson(personIndex);
+  });
+  $("#next-button").on("click", function() {
+    var personIndex = currentFeaturedPerson.findNextPerson();
+    changeToPerson(personIndex);
+  });
+}
+
+//changes featured person to the index of a dot that was clicked
+function changeOnDotClicks() {
+  $(".dot-container").on("click", ".dot", function() {
+    var personIndex = $(this).data("personIndex");
+    if (personIndex != currentFeaturedPerson.personIndex){
+      changeToPerson(personIndex);
+    }
+    $(this).removeClass("highlight");
+  });
+}
+
+//changes featured person forward/back when left/right arrow key is pressed
+function changeOnArrowKeys() {
+  $(document).on('keydown', function (key) {
+    var personIndex;
+    if (key.which == 37) {
+      personIndex = currentFeaturedPerson.findPrevPerson();
+      changeToPerson(personIndex);
+    } else if (key.which == 39) {
+      personIndex = currentFeaturedPerson.findNextPerson();
+      changeToPerson(personIndex);
+    }
+  });
+}
+
+//changes featured person to Anna when footer link is clicked & jumps to top
+function changeOnAnnaLink() {
+  $("#anna-link").on("click", function() {
+      changeToPerson(1);
+  });
+}
+
+//adds and removes highlight from dots on mouseover
+function highlightDotsOnMouseover() {
+  $(".dot-container").on("mouseover", ".dot", function() {
+    if ($(this).data("personIndex") != currentFeaturedPerson.personIndex) {
+      $(this).addClass("highlight");
+    }
+  });
+  $(".dot-container").on("mouseleave", ".dot", function() {
+    if ($(this).hasClass("highlight")) {
+      $(this).removeClass("highlight");
+    }
+  });
+}
+
+//adds and removes highlight from prev/next buttons on mouseover
+function highlightButtonsOnMouseover() {
+  $(".button").on("mouseover", function() {
+    $(this).addClass("highlight");
+  });
+  $(".button").on("mouseleave", function() {
+    $(this).removeClass("highlight");
+  });
+}
+
+////adds and removes highlight from footer link on mouseover
+function highlightAnnaLinkOnMouseover() {
+  $("#anna-link").on("mouseover", function() {
+    $(this).addClass("highlight");
+  });
+  $("#anna-link").on("mouseleave", function() {
+    $(this).removeClass("highlight");
+  });
+}
+
+//sets rules for when prev/next buttons fade in and out
+function foregroundButtons() {
+  var buttons = $(".button");
+  buttons.fadeIn(100, function() {
+      buttons.addClass("foregrounded");
+  });
+  clearInterval(buttonsToBackgroundTimer);
+  if (!($("#next-button").hasClass("highlight")) && !(($("#prev-button").hasClass("highlight")))){
+    buttonsToBackgroundTimer = setInterval(function() {
+        buttons.fadeOut(1000, function() {
+          buttons.removeClass("foregrounded");
+        });
+    }, 2000);
   }
 }
