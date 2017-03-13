@@ -11,6 +11,7 @@ var startingFeaturedPersonIndex = 0;
 var currentFeaturedPerson;
 var timer;
 var buttonsToBackground;
+var fadeSpeed = 800;
 
 function FeaturedPerson(personIndex) {
   this.personIndex = personIndex;
@@ -63,6 +64,25 @@ function appendDots() {
     $(".dot-container").append(dot);
     $(".dot-container").children().last().data("personIndex", i);
   }
+}
+
+function initialize(personIndex) {
+    setFeaturedPerson(personIndex);
+    var featuredImageSource = currentFeaturedPerson.imageSource;
+    var featuredPersonFirstName = currentFeaturedPerson.personInfo.name.split(" ")[0];
+    var imageHTML = "<img src='" +
+                    featuredImageSource +
+                    "' class='yak-pic' alt='yak' title='A yak called " +
+                    featuredPersonFirstName +
+                    "' />";
+    console.log(imageHTML);
+    $(".image-block").append(imageHTML);
+    var featuredShoutout = '"' + currentFeaturedPerson.personInfo.shoutout.trim() + '"';
+    $(".shoutout").text(featuredShoutout);
+    var featuredName = currentFeaturedPerson.personInfo.name;
+    $(".name").text(featuredName);
+    updateDots();
+    refreshTimer();
 }
 
 function eventListeners(){
@@ -137,30 +157,66 @@ function updateDOM() {
   updateDots();
 }
 
+function fadeOutFadeIn($elToRemove, $parentEl, newHTML) {
+  $elToRemove.fadeOut(fadeSpeed, function() {
+    this.remove();
+  });
+  fadeElementIn($parentEl, newHTML);
+}
+
+// function slideImageOut($elToRemove) {
+//   $elToRemove.animate({left: "+=900px"}, fadeSpeed);
+// }
+// fadeOutFadeIn($elToRemove);
+//
+// function slideImageIn($parentEl, newHTML) {
+//   $parentEl.append(newHTML);
+// }
+
+
+function fadeElementIn($parentEl, newHTML) {
+  $parentEl.append(newHTML);
+  $parentEl.children().last().fadeIn(fadeSpeed);
+}
+
 function updateFeaturedImage() {
-  $(".image-block").children().first().next().remove();
+  // $(".image-block").children().first().next().remove();
+  var $parentEl = $(".image-block");
+  var $el = $parentEl.children().first().next();
   var featuredImageSource = currentFeaturedPerson.imageSource;
   var featuredPersonFirstName = currentFeaturedPerson.personInfo.name.split(" ")[0];
   var imageHTML = "<img src='" +
                   featuredImageSource +
-                  "' class='yak-pic' alt='yak' title='A yak called " +
+                  "' class='yak-pic hidden' alt='yak' title='A yak called " +
                   featuredPersonFirstName +
                   "' />";
-  $(".image-block").append(imageHTML);
-  return imageHTML;
+  fadeOutFadeIn($el, $parentEl, imageHTML);
+  // $(".image-block").append(imageHTML);
+  //fadeOutFadeIn($el, $parentEl, imageHTML);
+}
+
+function fadeOutFadeInText(text, $el) {
+  $el.parent().fadeOut(fadeSpeed, function () {
+    $el.text(text);
+  });
+  $el.parent().fadeIn(fadeSpeed);
 }
 
 function updateFeaturedShoutout() {
   var featuredShoutout = '"' + currentFeaturedPerson.personInfo.shoutout.trim() + '"';
-  $(".shoutout").text(featuredShoutout);
-  return featuredShoutout;
+  var $el = $(".shoutout");
+
+  fadeOutFadeInText(featuredShoutout, $el);
+  // $(".shoutout").text(featuredShoutout);
+  // return featuredShoutout;
 }
 
 function updateFeaturedName() {
   var featuredName = currentFeaturedPerson.personInfo.name;
-  console.log(featuredName);
-  $(".name").text(featuredName);
-  return featuredName;
+  var $el = $(".name");
+  fadeOutFadeInText(featuredName, $el);
+  // $(".name").text(featuredName);
+  // return featuredName;
 }
 
 function updateDots() {
@@ -189,13 +245,15 @@ function autoAdvance() {
 
 function foregroundButtons() {
   var buttons = $(".button");
-  buttons.fadeTo(100, 0.75);
-  buttons.addClass("foregrounded");
+  buttons.fadeIn(100, function() {
+      buttons.addClass("foregrounded");
+  });
   clearInterval(buttonsToBackground);
   if (!($("#next-button").hasClass("highlight")) && !(($("#prev-button").hasClass("highlight")))){
     buttonsToBackground = setInterval(function() {
-      buttons.removeClass("foregrounded");
-      buttons.fadeTo(400, 0.25);
+        buttons.fadeOut(1000, function() {
+          buttons.removeClass("foregrounded");
+        });
     }, 2000);
   }
 }

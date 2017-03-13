@@ -10,7 +10,8 @@ header {
   color: linen;
   text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.10), 0px 3px 10px rgba(0, 0, 0, 0.08);
   text-transform: uppercase;
-  font-family: sans-serif;
+  font-family: 'Oxygen', sans-serif;
+  font-weight: bold;
   letter-spacing: 1px;
   font-size: 30px;
   word-spacing: 6px;
@@ -23,10 +24,14 @@ header {
   z-index: 999;
 }
 
+#chi {
+  color: silver;
+}
+
 footer {
   background-color: #333333;
   color: linen;
-  position: fixed;
+  position: static;
   width: 100%;
   bottom: 0;
   height: 35px;
@@ -41,9 +46,11 @@ body {
 .container {
   background-color: whitesmoke;
   height: 150%;
+  min-width: 1200px;
 }
 
 .carousel-block {
+  background-color: linen;
   width: 1200px;
   height: 600px;
   margin: 0 auto;
@@ -96,27 +103,16 @@ body {
 
 .name {
   color: linen;
-  font-family: sans-serif;
-  font-size: 30px;
+  font-family: 'Oxygen', sans-serif;
+  font-size: 32px;
   letter-spacing: 2px;
   word-spacing: 4px;
-  margin: 35px 0 0 35px;
+  margin: 34px 0 0 34px;
   opacity: 1;
   text-transform: uppercase;
   text-shadow: 1px 1px 1px #333333;
   z-index: 996;
 }
-
-/*.name-bar {
-  opacity: .75;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background-color: #333333;
-  opacity: 0.75;
-  top: -120px;
-  z-index: 900;
-}*/
 
 .text-block {
   background-color: linen;
@@ -130,21 +126,23 @@ body {
 .shoutout {
   margin: 60px 20px 60px 20px;
   color: #333333;
-  font-family: sans-serif;
-  font-size: 24px;
-  height: 300px;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 28px;
+  height: auto;
   text-indent: -0.35em;
 }
 
 .attribution {
   color: darkgrey;
-  height: 100px;
-  font-family: sans-serif;
-  font-size: 30px;
+  height: auto;
+  width: auto;
+  font-family: 'Oxygen', sans-serif;
+  font-size: 28px;
   float: right;
   margin: 0px 20px 0px 20px;
   text-transform: lowercase;
   font-style: italic;
+  position: relative;
 }
 
 .dot {
@@ -180,17 +178,18 @@ body {
 }
 
 .button.highlight {
-  /*opacity: 0.95;*/
-  box-shadow: 0 0 3px 3px darkgrey;
+  opacity: 0.95;
+  box-shadow: 0 0 6px 3px darkslategrey;
 }
 
 .yak-pic {
   width: 100%;
   border-radius: 5px 0 0 5px;
+  position: absolute;
+  overflow: hidden;
 }
 
 #anna-link {
-  text-decoration: underline;
   color: darkgrey;
 }
 
@@ -199,5 +198,9 @@ body {
 }
 
 .foregrounded {
-  opacity: .75;
+  opacity: 0.75;
+}
+
+.hidden {
+  display: none;
 }
