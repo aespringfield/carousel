@@ -161,20 +161,7 @@ function fadeOutFadeIn($elToRemove, $parentEl, newHTML) {
   $elToRemove.fadeOut(fadeSpeed, function() {
     this.remove();
   });
-  fadeElementIn($parentEl, newHTML);
-}
 
-// function slideImageOut($elToRemove) {
-//   $elToRemove.animate({left: "+=900px"}, fadeSpeed);
-// }
-// fadeOutFadeIn($elToRemove);
-//
-// function slideImageIn($parentEl, newHTML) {
-//   $parentEl.append(newHTML);
-// }
-
-
-function fadeElementIn($parentEl, newHTML) {
   $parentEl.append(newHTML);
   $parentEl.children().last().fadeIn(fadeSpeed);
 }
