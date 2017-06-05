@@ -5,6 +5,9 @@ Displays and transitions between quotes about Prime Academy classmates. First ef
 ## Built With
 
 * [jQuery](https://jquery.com/)
+* JavaScript
+* HTML5
+* CSS3
 
 ## Authors
 
